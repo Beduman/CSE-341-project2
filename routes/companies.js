@@ -9,9 +9,7 @@ router.post('/', companiesController.createCompany);
 router.put('/:id', companiesController.updateCompany);
 router.delete('/:id', companiesController.deleteCompany);
 
-router.get('/', (req, res) => {
-    res.send('Companies route works!');
-});
+//router.get('/', (req, res) => { res.send('Companies route works!'); });
 
 
 module.exports = router;

@@ -6,7 +6,7 @@ let database;
 const initDb = (callback) => {
     MongoClient.connect(process.env.MONGODB_URL)
         .then(client => {
-            database = client.db();
+            database = client.db('project2');
             callback(null, database);
         })
         .catch(err => {
