@@ -1,11 +1,16 @@
 {
   "dependencies": {
     "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "i": "^0.3.7",
     "mongo": "^0.1.0",
     "mongodb": "^6.17.0",
+    "passport": "^0.7.0",
+    "passport-github2": "^0.1.12",
+    "session": "^0.1.0",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1",
     "y": "^0.3.2"
