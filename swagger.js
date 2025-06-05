@@ -4,7 +4,9 @@ console.log('Starting swagger autogen...');
 const doc = {
     info: {
         title: 'Computers API',
-        description: 'Computers Api'
+        description: 'Computers Api',
+        title: 'Companies API',
+        description: 'Companies Api',
     },
     host: 'localhost:3000',
     schemes: ['https', 'http']

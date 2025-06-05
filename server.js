@@ -1,12 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('./data/database');
-const app = express();
 const passport = require('passport');
 const session = require('express-session');
 const GithubStrategy = require('passport-github2').Strategy;
+const cors = require('cors');
+const dotenv = require('dotenv');
 
 const port = process.env.PORT || 3000;
+const app = express();
 
 app
     .use(bodyParser.json())
@@ -23,7 +25,7 @@ app
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader(
             'Access-Control-Allow-Headers', 
-            'Origin, X-Requested-With, Content-Type, Accept, Z-key'
+            'Origin, X-Requested-With, Content-Type, Accept, Z-key, Authorization'
         );
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         next();
@@ -31,7 +33,7 @@ app
 
     .use(cors({ methods: ['GET', 'POST','PUT', 'DELETE', 'UPDATE', 'PATCH'] }))
     .use(cors({ origin: '*' }))
-    .use('/', require('./routes'));
+    .use('/', require('./routes/index.js'));
 
 passport.use(new GithubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
@@ -39,7 +41,6 @@ passport.use(new GithubStrategy({
     callbackURL: process.env.CALLBACK_URL
 }, 
 function(accessToken, refreshToken, profile, done) {
-    // Here you would typically save the user to your database
     return done(null, profile);
 }));
 
@@ -50,11 +51,21 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
+app.get('/', (req, res) => { res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}` : 'Logged out')});
+
+app.get('/github/callback', passport.authenticate('github', {
+    failureRedirect: '/api-docs', session: false}), 
+    (req, res) => {
+    req.session.user = req.user;
+    res.redirect('/');
+});
+
 mongodb.initDb((err) => {
     if (err) {
         console.log(err);
     } else {
-        app.listen(port, () => {console.log(`Database is listening and running on port ${port}`)});
+        app.listen(port);
+        console.log(`Database is listening and running on port ${port}`);
     }
 });
 
