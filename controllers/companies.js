@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
     //#swagger.tags = ['Company']
     
-    const companiesId = new ObjectId(req.params.id);
+    const companiesId = ObjectId.createFromHexString(req.params.id);
     const result = await mongodb.getDatabase().collection('companies').find({ _id: companiesId });
     result.toArray()
         .then((companies) => {
@@ -58,7 +58,7 @@ const updateCompany = async (req, res) => {
     if (error) {
         return res.status(400).json({ error });
     }
-    const companiesId = new ObjectId(req.params.id);
+    const companiesId = ObjectId.createFromHexString(req.params.id);
     const updatedCompanny = {
         name: req.body.name,
         contact: req.body.contact,
@@ -75,7 +75,7 @@ const updateCompany = async (req, res) => {
 
 const deleteCompany = async (req, res) => {
     //#swagger.tags = ['Company']
-    const companiesId = new ObjectId(req.params.id); 
+    const companiesId = ObjectId.createFromHexString(req.params.id); 
     const response = await mongodb.getDatabase().collection('companies').deleteOne({ _id: companiesId });
     if (response.deletedCount > 0) {
         res.status(204).json({ message: 'Company deleted successfully' });
