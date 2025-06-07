@@ -1,5 +1,6 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
+const { validate } = require('../middleware/validate');
 
 console.log("companies Controller Loaded");
 

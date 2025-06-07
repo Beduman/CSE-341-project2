@@ -1,5 +1,6 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
+const { validate } = require('../middleware/validate');
 
 console.log('Computers Controller Loaded');
 
@@ -63,6 +64,7 @@ const updateComputers = async (req, res) => {
         ram: req.body.ram,
         storage: req.body.storage
     };
+
 
     const response = await mongodb.getDatabase().collection('computers').replaceOne({ _id: computersId }, updatedComputer);
     if (response.modifiedCount > 0) {
