@@ -20,7 +20,7 @@ const getAll = async (req, res) => {
 const getSingle = async (req, res) => {
     //#swagger.tags = ['Computers']
     
-    const computersId = new ObjectId(req.params.id);
+    const computersId = ObjectId.createFromHexString(req.params.id);
     const result = await mongodb.getDatabase().collection('computers').find({ _id: computersId });
     result.toArray()
         .then((computers) => {
@@ -34,6 +34,12 @@ const getSingle = async (req, res) => {
 
 const createComputers = async (req, res) => {
     //#swagger.tags = ['Computers']
+    /*---
+    const error = validate(req.body);
+    if (error) {
+        return res.status(400).json({ error });
+    }
+    ---*/
     const newComputers = {
         name: req.body.name,
         type: req.body.type,
@@ -54,7 +60,13 @@ const createComputers = async (req, res) => {
 
 const updateComputers = async (req, res) => {
     //#swagger.tags = ['Computers']
-    const computersId = new ObjectId(req.params.id);
+    /*---
+    const error = validate(req.body);
+    if (error) {
+        return res.status(400).json({ error });
+    }
+    ---*/
+    const computersId = ObjectId.createFromHexString(req.params.id);
     const updatedComputer = {
         name: req.body.name,
         type: req.body.type,
@@ -76,7 +88,7 @@ const updateComputers = async (req, res) => {
 
 const deleteComputers = async (req, res) => {
     //#swagger.tags = ['Computers']
-    const computersId = new ObjectId(req.params.id); 
+    const computersId = ObjectId.createFromHexString(req.params.id); 
     const response = await mongodb.getDatabase().collection('computers').deleteOne({ _id: computersId });
     if (response.deletedCount > 0) {
         res.status(204).json({ message: 'Computer deleted successfully' });
