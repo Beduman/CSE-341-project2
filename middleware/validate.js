@@ -3,7 +3,7 @@ const userValidationRules = () => {
   return [
     body('name').isLength({max:30}),
     body('contact').isEmail(),
-    body('employees').isInt(),
+    body('employees').isLength(5),
     body('type').isString({ max: 20 }),
     body('model').isString({ max: 30 }),
     body('serialNumber').isString({ max: 50 }),
