@@ -8,7 +8,7 @@ const doc = {
         title: 'Companies API',
         description: 'Companies Api',
     },
-    host: 'https://cse-341-project2-3srj.onrender.com',
+    host: 'cse-341-project2-3srj.onrender.com',
     schemes: ['https', 'http']
 };
 
