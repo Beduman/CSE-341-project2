@@ -1,6 +1,6 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
-const { validate } = require('../middleware/validate');
+const { userValidationRules, validate } = require('../middleware/validate');
 
 console.log("companies Controller Loaded");
 
@@ -32,8 +32,12 @@ const getSingle = async (req, res) => {
         });
 }
 
-const createCompany = async (req, res) => {;
+const createCompany = async (req, res) => {
     //#swagger.tags = ['Company']
+    const error = validate(req.body);
+    if (error) {
+        return res.status(400).json({ error });
+    }
     const newCompany = {
         name: req.body.name,
         contact: req.body.contact,
@@ -50,6 +54,10 @@ const createCompany = async (req, res) => {;
 
 const updateCompany = async (req, res) => {
     //#swagger.tags = ['Company']
+    const error = validate(req.body);
+    if (error) {
+        return res.status(400).json({ error });
+    }
     const companiesId = new ObjectId(req.params.id);
     const updatedCompanny = {
         name: req.body.name,

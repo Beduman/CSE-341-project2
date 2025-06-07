@@ -1,6 +1,6 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
-const { validate } = require('../middleware/validate');
+const { userValidationRules, validate } = require('../middleware/validate');
 
 console.log('Computers Controller Loaded');
 
@@ -34,6 +34,10 @@ const getSingle = async (req, res) => {
 
 const createComputers = async (req, res) => {
     //#swagger.tags = ['Computers']
+    const error = validate(req.body);
+    if (error) {
+        return res.status(400).json({ error });
+    }
     const newComputers = {
         name: req.body.name,
         type: req.body.type,
@@ -54,6 +58,10 @@ const createComputers = async (req, res) => {
 
 const updateComputers = async (req, res) => {
     //#swagger.tags = ['Computers']
+    const error = validate(req.body);
+    if (error) {
+        return res.status(400).json({ error });
+    }
     const computersId = new ObjectId(req.params.id);
     const updatedComputer = {
         name: req.body.name,
