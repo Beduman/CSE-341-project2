@@ -56,17 +56,13 @@ const createCompany = async (req, res) => {
 
 const updateCompany = async (req, res) => {
     //#swagger.tags = ['Company']
-    const error = validate(req.body);
-    if (error) {
-        return res.status(400).json({ error });
-    }
-    const companiesId = ObjectId.createFromHexString(req.params.id);
     /*---
     const error = validate(req.body);
     if (error) {
         return res.status(400).json({ error });
     }
     ---*/
+    const companiesId = ObjectId.createFromHexString(req.params.id);
     const response = await mongodb.getDatabase().collection('companies').replaceOne({ _id: companiesId }, updatedCompanny);
     if (response.modifiedCount > 0) {
         res.status(204).json({ message: 'Company updated successfully' });
