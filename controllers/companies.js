@@ -62,8 +62,17 @@ const updateCompany = async (req, res) => {
         return res.status(400).json({ error });
     }
     ---*/
+    const updatedCompany = {
+        name: req.body.name,
+        type: req.body.type,
+        model: req.body.model,
+        serialNumber: req.body.serialNumber,
+        cpu: req.body.cpu,
+        ram: req.body.ram,
+        storage: req.body.storage
+    }
     const companiesId = ObjectId.createFromHexString(req.params.id);
-    const response = await mongodb.getDatabase().collection('companies').replaceOne({ _id: companiesId }, updatedCompanny);
+    const response = await mongodb.getDatabase().collection('companies').replaceOne({ _id: companiesId }, updatedCompany);
     if (response.modifiedCount > 0) {
         res.status(204).json({ message: 'Company updated successfully' });
     } else {
