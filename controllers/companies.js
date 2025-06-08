@@ -64,12 +64,8 @@ const updateCompany = async (req, res) => {
     ---*/
     const updatedCompany = {
         name: req.body.name,
-        type: req.body.type,
-        model: req.body.model,
-        serialNumber: req.body.serialNumber,
-        cpu: req.body.cpu,
-        ram: req.body.ram,
-        storage: req.body.storage
+        contact: req.body.contact,
+        employees: req.body.employees
     }
     const companiesId = ObjectId.createFromHexString(req.params.id);
     const response = await mongodb.getDatabase().collection('companies').replaceOne({ _id: companiesId }, updatedCompany);
